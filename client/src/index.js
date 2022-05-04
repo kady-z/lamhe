@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { configureStore, applyMiddleware, compose } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
 import thunk from 'redux-thunk'; 
 
 import reducer from './reducers/index';
@@ -10,13 +10,15 @@ import App from './App';
 
 const store = configureStore({
   reducer,
-  compose(applyMiddleware(thunk))
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk)
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+  </Provider>
   </React.StrictMode>
 );
 
